@@ -1,4 +1,4 @@
-Hello World with Docker and Kubernetes
+Maven App
 =====================================================
 
 This repo consists of a Spring Boot Hello World application. It shows:
