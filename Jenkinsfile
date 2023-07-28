@@ -21,7 +21,6 @@ pipeline {
         stage ('Build') {
             steps {
                echo "---------Build Start----------"
-
                sh "mvn clean install -DskipTests"
                sh "ls -l target/"
                echo "---------Build End------------"
