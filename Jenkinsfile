@@ -20,6 +20,8 @@ pipeline {
         // }
         stage ('Build') {
             steps {
+               echo "---------Clean workspace before build----------"
+               cleanWs() // Clean before build
                echo "---------Build Start----------"
                sh "mvn clean install -DskipTests"
                sh "ls -l target/"
