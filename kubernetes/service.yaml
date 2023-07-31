@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: maven-app
+  namespace: dev
+  labels:
+    app: maven-app
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30005
+  selector:
+    app: maven-app

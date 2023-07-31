@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maven-app
+  namespace: dev
+  labels:
+    app: maven-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: maven-app
+  template:
+    metadata:
+      name: maven-app
+      labels:
+        app: maven-app
+    spec:
+      imagePullSecrets:
+        - name: mycred
+      containers:
+        - name: maven-app
+          image: xorazn.jfrog.io/xoriant-docker/maven-app:6
+          imagePullPolicy: Always
