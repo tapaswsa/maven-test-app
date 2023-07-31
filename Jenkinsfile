@@ -55,7 +55,7 @@ pipeline {
             steps {
                 echo "------------Docker Image Start------------"
                 withCredentials([usernamePassword(credentialsId: 'jfrog-creds', passwordVariable: 'JFROG_PASSWORD', usernameVariable: 'JFROG_USER')]) {
-                    sh "docker build -t xorazn.jfrog.io/xoriant-docker/maven-app:${env.BUILD_NUMBER}"
+                    sh "docker build -t xorazn.jfrog.io/xoriant-docker/maven-app:${env.BUILD_NUMBER} ."
                     sh "docker login xorazn.jfrog.io -u ${JFROG_USER} -p ${JFROG_PASSWORD}"
                     sh "docker push xorazn.jfrog.io/xoriant-docker/maven-app:${env.BUILD_NUMBER}"
                 }
