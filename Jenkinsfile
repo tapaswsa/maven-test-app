@@ -54,7 +54,8 @@ pipeline {
         stage ('Docker Image') {
             steps {
                 echo "------------Docker Image Start------------"
-                echo "Upload Docker Image to Jfrog Artifactory" 
+                echo "Upload Docker Image to Jfrog Artifactory"
+                echo "------------Docker Image End-----------" 
             }
         }
         stage ('Deployment') {
