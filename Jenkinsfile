@@ -56,7 +56,7 @@ pipeline {
                 echo "------------Docker Image Start------------"
                 withCredentials([usernamePassword(credentialsId: 'jfrog-creds', passwordVariable: 'JFROG_PASSWORD', usernameVariable: 'JFROG_USER')]) {
                     sh "docker build -t xorazn.jfrog.io/xoriant-docker/${env.JOB_NAME}:${env.BUILD_NUMBER} ."
-                    sh "docker login xorazn.jfrog.io -u ${JFROG_USER} -p ${JFROG_PASSWORD}"
+                    
                     sh "docker push xorazn.jfrog.io/xoriant-docker/${env.JOB_NAME}:${env.BUILD_NUMBER}"
                     sh "docker rmi -f xorazn.jfrog.io/xoriant-docker/${env.JOB_NAME}:${env.BUILD_NUMBER}"
                 }
@@ -65,7 +65,9 @@ pipeline {
         }
         stage ('Deployment') {
             steps {
-                echo "Deployment" 
+                echo "------------Deployment Start------------"
+                sh "kubectl apply -f kubernetes"
+                echo "------------Deployment End------------"
             }
         }
         
