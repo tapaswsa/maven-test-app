@@ -71,10 +71,10 @@ pipeline {
         }
         
     } // End of Stages
-    // post { 
-    //         cleanup { 
-    //             echo "Clean up in post workspace"
-    //             cleanWs()
-    //         } // End of cleanup
-    // }
+    post { 
+            cleanup { 
+                echo "Clean up in post workspace"
+                cleanWs()
+            } // End of cleanup
+    }
 } // End of Pipeline
