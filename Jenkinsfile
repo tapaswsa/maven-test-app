@@ -45,8 +45,8 @@ pipeline {
             steps {
                 echo "---------------Artifactory Start---------"
                 withCredentials([usernamePassword(credentialsId: 'jfrog-creds', passwordVariable: 'JFROG_PASSWORD', usernameVariable: 'JFROG_USER')]) {
-                    jf "rt u  target/*.jar --flat=true xoriant-maven/maven-app/${env.BUILD_NUMBER}/ --url ${ARTIFACTORY_URL} --user ${JFROG_USER} --password ${JFROG_PASSWORD}"
-                    jf "rt u  pom.xml --flat=true xoriant-maven/maven-app/${env.BUILD_NUMBER}/ --url ${ARTIFACTORY_URL} --user ${JFROG_USER} --password ${JFROG_PASSWORD}"
+                    jf "rt u  target/*.jar --flat=true xoriant-maven/${env.JOB_NAME}/${env.BUILD_NUMBER}/ --url ${ARTIFACTORY_URL} --user ${JFROG_USER} --password ${JFROG_PASSWORD}"
+                    jf "rt u  pom.xml --flat=true xoriant-maven/${env.JOB_NAME}/${env.BUILD_NUMBER}/ --url ${ARTIFACTORY_URL} --user ${JFROG_USER} --password ${JFROG_PASSWORD}"
                 } 
                 echo "---------------Artifactory End----------" 
             }
@@ -54,12 +54,12 @@ pipeline {
         stage ('Docker Image') {
             steps {
                 echo "------------Docker Image Start------------"
-                echo "${env.JOB_NAME}"
-                // withCredentials([usernamePassword(credentialsId: 'jfrog-creds', passwordVariable: 'JFROG_PASSWORD', usernameVariable: 'JFROG_USER')]) {
-                //     sh "docker build -t xorazn.jfrog.io/xoriant-docker/maven-app:${env.BUILD_NUMBER} ."
-                //     sh "docker login xorazn.jfrog.io -u ${JFROG_USER} -p ${JFROG_PASSWORD}"
-                //     sh "docker push xorazn.jfrog.io/xoriant-docker/maven-app:${env.BUILD_NUMBER}"
-                // }
+                withCredentials([usernamePassword(credentialsId: 'jfrog-creds', passwordVariable: 'JFROG_PASSWORD', usernameVariable: 'JFROG_USER')]) {
+                    sh "docker build -t xorazn.jfrog.io/xoriant-docker/${env.JOB_NAME}:${env.BUILD_NUMBER} ."
+                    sh "docker login xorazn.jfrog.io -u ${JFROG_USER} -p ${JFROG_PASSWORD}"
+                    sh "docker push xorazn.jfrog.io/xoriant-docker/${env.JOB_NAME}:${env.BUILD_NUMBER}"
+                    sh "docker rmi -f xorazn.jfrog.io/xoriant-docker/${env.JOB_NAME}:${env.BUILD_NUMBER}"
+                }
                 echo "------------Docker Image End-----------" 
             }
         }
