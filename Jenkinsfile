@@ -1,4 +1,5 @@
 def ARTIFACTORY_URL = 'https://xorazn.jfrog.io/artifactory/'
+def JFROGDOCKER_URL = 'xorazn.jfrog.io'
 
 pipeline {
     agent {
@@ -43,9 +44,16 @@ pipeline {
                 }    
             }
         }
-        stage ('Upload Docker Image to Jfrog Artifactory') {
+        stage ('Docker Image') {
             steps {
-                echo "Upload Docker Image to Jfrog Artifactory" 
+                echo "Upload Docker Image to Jfrog Artifactory"
+                 withCredentials([usernamePassword(credentialsId: 'Jfrog-ayaz-creds', passwordVariable: 'MYPASSWORD', usernameVariable: 'MYUSER')]) {
+                     sh "docker build -t ${JFROGDOCKER_URL}/tapu-docker/${env.JOB_NAME}:${env.BUILD_NUMBER} ."
+                     sh "docker login ${JFROGDOCKER_URL} -u ${MYUSER} -p ${MYPASSWORD}"
+                     sh "docker push ${JFROGDOCKER_URL}/tapu-docker/${env.JOB_NAME}:${env.BUILD_NUMBER}"
+                     sh "docker rmi -f ${JFROGDOCKER_URL}/tapu-docker/${env.JOB_NAME}:${env.BUILD_NUMBER}"
+                }    
+                
             }
         }
         stage ('Deployment') {
