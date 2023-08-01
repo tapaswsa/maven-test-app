@@ -19,7 +19,7 @@ pipeline {
         stage ('Build') {
             steps {
                echo "Build start"
-               sh "mvn clean install -DSkiptest"
+               sh "mvn clean install -DskipTests"
                sh "ls -ltr target"
             }
         }
