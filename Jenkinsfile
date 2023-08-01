@@ -1,7 +1,9 @@
 def ARTIFACTORY_URL = 'https://xorazn.jfrog.io/artifactory/'
 
 pipeline {
-    agent any
+    agent {
+        label 'Linux'
+    }
     //options {
      // skipDefaultCheckout true
     //}
